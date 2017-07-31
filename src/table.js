@@ -8,9 +8,10 @@
 */
 PrettyTable.view.Table = Backbone.View.extend({
 	initialize:function(opt) {
-        this.headers = opt.headers;
-        this.data = opt.data;
-        
+        this.headerData = opt.headers;
+        this.rowData = opt.data;
+
+        this.headers = [];
         this.rows = [];
         
         this.render();
@@ -26,16 +27,25 @@ PrettyTable.view.Table = Backbone.View.extend({
     	this.tpl = _.template(PrettyTable.tpl.Table);
         $(this.el).html(this.tpl);
         this.elements();
+        _.each(this.headerData, function(headerData) {
+            console.log(headerData)
+            var opt = {data: headerData, parent: this};
+            var header = new PrettyTable.view.Header(opt);
+
+            this.els.head.append(header.el);
+
+            this.headers.push(header);
+        }, this);
         return this;
     },
     renderRows:function() {
-    	_.each(this.data, function(rowData) {
+    	_.each(this.rowData, function(rowData) {
     		var opt = {data: rowData, parent: this};
     		var row = new PrettyTable.view.Row(opt);
 
-    		this.els.body.append(row.el)
+    		this.els.body.append(row.el);
 
     		this.rows.push(row)
-    	}, this)
+    	}, this);
     }
 })
