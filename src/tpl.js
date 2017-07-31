@@ -12,7 +12,3 @@ PrettyTable.tpl.Table = '' +
 	'<thead></thead>' +
 	'<tbody></tbody>' +
 '</table>'
-
-PrettyTable.tpl.Row = '<tr></tr>'
-
-PrettyTable.tpl.Cell = '<td><%= value %></td>'
