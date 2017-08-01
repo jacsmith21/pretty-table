@@ -22,13 +22,18 @@ PrettyTable.view.Row = Backbone.View.extend({
     renderCells:function() {
         if(this.headers !== undefined && this.headers.length !== 0) {
             _.each(this.headers, function(header) {
-                var opt = {data: this.model[header.value], renderer: this.renderer, parent: this};
+                var opt = {data: this.model[header.value], parent: this};
                 var cell = new PrettyTable.view.Cell(opt);
                 this.el.append(cell.el);
                 this.cells.push(cell);
             }, this);
         } else {
-            var opt = {data: this.model, renderer: this.renderer, parent: this};
+            if(this.counterpart === undefined) {
+                var cellCounterpart = undefined;
+            } else {
+                var cellCounterpart = this.counterpart.cells[0];
+            }
+            var opt = {data: this.model, compareTo: this.compareTo, counterpart: cellCounterpart, parent: this};
             var cell = new PrettyTable.view.Cell(opt);
             this.el.append(cell.el);
             this.cells.push(cell);

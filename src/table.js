@@ -12,7 +12,7 @@ PrettyTable.view.Table = Backbone.View.extend({
         this.rows = [];
         
         this.render(opt.headers);
-        this.renderRows(opt.models, opt.renderer);
+        this.renderRows(opt.models);
     },
     elements:function(){
         this.els = {
@@ -36,7 +36,7 @@ PrettyTable.view.Table = Backbone.View.extend({
     },
     renderRows:function(models, renderer) {
     	_.each(models, function(model) {
-    		var opt = {model: model, headers: this.headers, renderer: renderer, parent: this};
+    		var opt = {model: model, headers: this.headers, parent: this};
     		var row = new PrettyTable.view.Row(opt);
 
     		this.els.body.append(row.el);

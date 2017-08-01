@@ -52,7 +52,6 @@
             btnAction2: $('#action2'),
             btnClear2: $('#clear2'),
             input1: $('#input1'),
-            input2: $('#input2'),
             input3: $('#input3'),
             input4: $('#input4'),
             result1: $('#result1'),
@@ -77,29 +76,18 @@
             ]
         };
 
-        var demo2 = {
-            headers:["ApplicationName", "ApplicationVersion"],
-            models:[
-                {
-                    "ApplicationName": "App Name",
-                    "ApplicationVersion": "5"
-                },
-                {
-                    "ApplicationName": "ppA Name",
-                    "ApplicationVersion": "5"
-                }
-            ]
-        };
-
         var demo3 = {
             models:[
                 {
                     "ApplicationName": "ppA Name",
-                    "ApplicationVersion": "4"
+                    "ApplicationVersion": "4",
+                    "test": "me",
+                    "wife":{"name":'Jane Doe', "age":"28" }
+
                 },
                 {
                     "ApplicationName": "App Name",
-                    "ApplicationVersion": "5"
+                    "ApplicationVersion": "5",
                 }
             ]
         };
@@ -112,45 +100,32 @@
                 },
                 {
                     "ApplicationName": "ppA Name",
-                    "ApplicationVersion": "5"
+                    "ApplicationVersion": "4",
+                    "test": "not me",
+                    "wife":{"name":'Jane Doe', "age":"28" }
                 }
             ]
         };
 
         el.input1.val(JSON.stringify(demo1,null,4));
-        el.input2.val(JSON.stringify(demo2,null,4));
         el.input3.val(JSON.stringify(demo3,null,4));
         el.input4.val(JSON.stringify(demo4,null,4));
 
         el.btnAction1.on('click', function(){
             var json1 = el.input1.val();
-            var json2 = el.input2.val();
 
             var data1;
-            var data2;
-            try{ 
+            try{
                 data1 = JSON.parse(json1);
-                data2 = JSON.parse(json2);
             } catch(e) {
                 alert('not valid JSON');
                 return;
             }
             
             var table1 = new PrettyTable.view.Table({
+                el: el.result1,
                 headers: data1.headers,
              	models: data1.models
-            });
-
-            var table2 = new PrettyTable.view.Table({
-                headers: data2.headers,
-                models: data2.models
-            });
-
-            var comparer = new PrettyTable.view.Comparer({
-                el:el.result1,
-                table1: table1,
-                table2: table2,
-                keys: ["ApplicationName", "ApplicationVersion"]
             });
         });
 
@@ -172,18 +147,10 @@
                 return;
             }
 
-            var renderer = function(data, parent) {
-                var node1 = new PrettyJSON.view.Node({
-                    el: parent.el,
-                    data: data
-                });
-            }
-
             var comparer = new PrettyTable.view.Comparer({
                 el:el.result2,
                 models1: data1.models,
                 models2: data2.models,
-                renderer: renderer,
                 keys: ["ApplicationName", "ApplicationVersion"]
             });
         });
@@ -208,9 +175,6 @@
     <div class="row">
         <div class="col">
             <textarea id="input1" rows="12"></textarea>
-        </div>
-        <div class="col">
-            <textarea id="input2" rows="12"></textarea>
         </div>
     </div>
 

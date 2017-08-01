@@ -10,10 +10,11 @@ PrettyTable.view.Comparer = Backbone.View.extend({
     initialize:function(opt) {
         this.keys = opt.keys;
         this.headers = opt.headers;
-        this.renderer = opt.renderer;
+        this.models1 = opt.models1;
+        this.models2 = opt.models2;
 
         this.render();
-        this.renderTables(opt);
+        this.renderTables();
     },
     elements:function(){
         this.els = {
@@ -27,8 +28,8 @@ PrettyTable.view.Comparer = Backbone.View.extend({
         this.elements();
     },
     renderTables:function(opt) {
-        var models1 = opt.models1;
-        var models2 = opt.models2;
+        var models1 = this.models1;
+        var models2 = this.models2;
 
         var table1 = new PrettyTable.view.Table({});
         var table2 = new PrettyTable.view.Table({});
@@ -70,9 +71,9 @@ PrettyTable.view.Comparer = Backbone.View.extend({
         }
     },
     createAndAppend:function(model1, model2, table1, table2) {
-        var row1 = new PrettyTable.view.Row({model: model1, compareTo: model2, headers: this.headers, renderer: this.renderer, parent: this});
+        var row1 = new PrettyTable.view.Row({model: model1, compareTo: model2, headers: this.headers, parent: this});
         table1.append(row1);
-        var row2 = new PrettyTable.view.Row({model: model2, compareTo: model2, counterpart: row1, headers: this.headers, renderer: this.renderer, parent: this});
+        var row2 = new PrettyTable.view.Row({model: model2, compareTo: model1, counterpart: row1, headers: this.headers, parent: this});
         table2.append(row2);
     },
     createComparator:function(keys) {
