@@ -9,6 +9,8 @@
 PrettyTable.view.Row = Backbone.View.extend({
     initialize:function(opt) {
         this.model = opt.model;
+        this.compareTo = opt.compareTo;
+        this.counterpart = opt.counterpart;
         this.renderer = opt.renderer;
         this.headers = opt.headers;
         this.el = $('<tr />');

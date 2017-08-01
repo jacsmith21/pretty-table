@@ -44,10 +44,8 @@ PrettyTable.view.Table = Backbone.View.extend({
     		this.rows.push(row)
     	}, this);
     },
-    clear:function() {
-        this.els.body.empty();
-    },
     append:function(row) {
+        this.rows.push(row);
         this.els.body.append(row.el);
     }
 })

@@ -8,13 +8,12 @@
  */
 PrettyTable.view.Comparer = Backbone.View.extend({
     initialize:function(opt) {
-        this.table1 = opt.table1;
-        this.table2 = opt.table2;
-
         this.keys = opt.keys;
+        this.headers = opt.headers;
+        this.renderer = opt.renderer;
 
         this.render();
-        this.renderTables();
+        this.renderTables(opt);
     },
     elements:function(){
         this.els = {
@@ -27,60 +26,61 @@ PrettyTable.view.Comparer = Backbone.View.extend({
         $(this.el).html(this.tpl);
         this.elements();
     },
-    renderTables:function() {
-        this.els.cell1.html(this.table1.el);
-        this.els.cell2.html(this.table2.el);
+    renderTables:function(opt) {
+        var models1 = opt.models1;
+        var models2 = opt.models2;
+
+        var table1 = new PrettyTable.view.Table({});
+        var table2 = new PrettyTable.view.Table({});
+        this.els.cell1.html(table1.el);
+        this.els.cell2.html(table2.el);
 
         var comparator = this.createComparator(this.keys);
+        models1.sort(comparator);
+        models2.sort(comparator);
 
-        this.table1.rows.sort(comparator);
-        this.table2.rows.sort(comparator);
-
-
-        this.table1.clear();
-        this.table2.clear();
-
-
-        var table1Length = this.table1.rows.length;
-        var table2Length = this.table2.rows.length;
+        var models1Length = models1.length;
+        var models2Length = models2.length;
         var i = 0;
         var j = 0;
-        while(i < table1Length && j < table2Length) {
-            if(comparator(this.table1.rows[i], this.table2.rows[j]) === 0) {
-                this.table1.append(this.table1.rows[i])
-                this.table2.append(this.table2.rows[j])
+        while(i < models1Length && j < models2Length) {
+            if(comparator(models1[i], models2[j]) === 0) {
+                this.createAndAppend(models1[i], models2[j], table1, table2);
                 i++;
                 j++;
-            } else if(comparator(this.table1.rows[i], this.table2.rows[j]) < 0) {
-                this.copyAndAppend(this.table1.rows[i], this.table1, this.table2);
+            } else if(comparator(models1[i], models2[j]) < 0) {
+                this.createAndAppend(models1[i], models1[i], table1, table2);
+                table2.rows[table2.rows.length-1].setVisible(false);
                 i++;
             } else {
-                var copy = $.extend(true, {}, this.table2.rows[j]);
-                this.copyAndAppend(this.table2.rows[j], this.table2, this.table1);
+                this.createAndAppend(models2[j], models2[j], table1, table2);
+                table1.rows[table1.rows.length-1].setVisible(false);
                 j++;
             }
         }
-        while(i < table1Length) {
-            this.copyAndAppend(this.table1.rows[i], this.table1, this.table2);
+        while(i < models1Length) {
+            this.createAndAppend(models1[i], models1[i], table1, table2);
+            table2.rows[table2.rows.length-1].setVisible(false);
             i++;
         }
-        while(j < table2Length) {
-            this.copyAndAppend(this.table2.rows[j], this.table2, this.table1);
+        while(j < models2Length) {
+            this.createAndAppend(models1[j], models2[j], table1, table2);
+            table1.rows[table1.rows.length-1].setVisible(false);
             j++;
         }
     },
-    copyAndAppend:function(row, table, otherTable) {
-        var copy = row.clone();
-        copy.setVisible(false);
-        table.append(row);
-        otherTable.append(copy);
+    createAndAppend:function(model1, model2, table1, table2) {
+        var row1 = new PrettyTable.view.Row({model: model1, compareTo: model2, headers: this.headers, renderer: this.renderer, parent: this});
+        table1.append(row1);
+        var row2 = new PrettyTable.view.Row({model: model2, compareTo: model2, counterpart: row1, headers: this.headers, renderer: this.renderer, parent: this});
+        table2.append(row2);
     },
     createComparator:function(keys) {
-        return function(row1, row2) {
+        return function(model1, model2) {
             for(var i in keys){
                 var key = keys[i];
-                if(row1.model[key] < row2.model[key]) return -1;
-                if(row1.model[key] > row2.model[key]) return 1;
+                if(model1[key] < model2[key]) return -1;
+                if(model1[key] > model2[key]) return 1;
             }
             return 0;
         }

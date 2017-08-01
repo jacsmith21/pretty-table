@@ -155,7 +155,6 @@
         });
 
         el.btnClear1.on('click', function(){
-            el.input1.val('');
             el.result1.html('');
         });
 
@@ -180,26 +179,16 @@
                 });
             }
 
-            var table1 = new PrettyTable.view.Table({
-                models: data1.models,
-                renderer: renderer
-            });
-
-            var table2 = new PrettyTable.view.Table({
-                models: data2.models,
-                renderer: renderer
-            });
-
             var comparer = new PrettyTable.view.Comparer({
                 el:el.result2,
-                table1: table1,
-                table2: table2,
+                models1: data1.models,
+                models2: data2.models,
+                renderer: renderer,
                 keys: ["ApplicationName", "ApplicationVersion"]
             });
         });
 
         el.btnClear2.on('click', function(){
-            el.input2.val('');
             el.result2.html('');
         });
     });
