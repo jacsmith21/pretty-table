@@ -9,6 +9,7 @@
 PrettyTable.view.Row = Backbone.View.extend({
     initialize:function(opt) {
         this.model = opt.model;
+        this.renderer = opt.renderer;
         this.headers = opt.headers;
         this.el = $('<tr />');
 
@@ -17,15 +18,15 @@ PrettyTable.view.Row = Backbone.View.extend({
         this.renderCells();
     },
     renderCells:function() {
-        if(this.headers !== undefined) {
+        if(this.headers !== undefined && this.headers.length !== 0) {
             _.each(this.headers, function(header) {
-                var opt = {data: this.model[header.value], parent: this};
+                var opt = {data: this.model[header.value], renderer: this.renderer, parent: this};
                 var cell = new PrettyTable.view.Cell(opt);
                 this.el.append(cell.el);
                 this.cells.push(cell);
             }, this);
         } else {
-            var opt = {data: modal, parent: this};
+            var opt = {data: this.model, renderer: this.renderer, parent: this};
             var cell = new PrettyTable.view.Cell(opt);
             this.el.append(cell.el);
             this.cells.push(cell);
@@ -39,7 +40,7 @@ PrettyTable.view.Row = Backbone.View.extend({
         }
     },
     clone:function() {
-        var opt = {model: this.model, headers: this.headers};
+        var opt = {model: this.model, renderer: this.renderer, headers: this.headers};
         var clone = new PrettyTable.view.Row(opt);
         return clone;
     }

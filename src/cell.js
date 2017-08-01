@@ -9,10 +9,15 @@
 PrettyTable.view.Cell = Backbone.View.extend({
     initialize:function(opt) {
         this.data = opt.data;
-        this.el = $('<td />')
+        this.renderer = opt.renderer;
+        this.el = $('<td />');
         this.render();
     },
     render:function() {
-        this.el.html(this.data)
+        if(this.renderer !== undefined) {
+            this.renderer(this.data, this);
+        } else {
+            this.el.html(this.data.toString())
+        }
     }
 });

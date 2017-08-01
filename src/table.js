@@ -8,14 +8,11 @@
 */
 PrettyTable.view.Table = Backbone.View.extend({
 	initialize:function(opt) {
-        this.headerData = opt.headers;
-        this.models = opt.models;
-
         this.headers = [];
         this.rows = [];
         
-        this.render();
-        this.renderRows();
+        this.render(opt.headers);
+        this.renderRows(opt.models, opt.renderer);
     },
     elements:function(){
         this.els = {
@@ -23,11 +20,11 @@ PrettyTable.view.Table = Backbone.View.extend({
             body: $(this.el).find('tbody')
         };
     },
-    render:function() {
+    render:function(headerData) {
     	this.tpl = _.template(PrettyTable.tpl.Table);
         $(this.el).html(this.tpl);
         this.elements();
-        _.each(this.headerData, function(headerValue) {
+        _.each(headerData, function(headerValue) {
             var opt = {value: headerValue, parent: this};
             var header = new PrettyTable.view.Header(opt);
 
@@ -37,9 +34,9 @@ PrettyTable.view.Table = Backbone.View.extend({
         }, this);
         return this;
     },
-    renderRows:function() {
-    	_.each(this.models, function(model) {
-    		var opt = {model: model, headers: this.headers, parent: this};
+    renderRows:function(models, renderer) {
+    	_.each(models, function(model) {
+    		var opt = {model: model, headers: this.headers, renderer: renderer, parent: this};
     		var row = new PrettyTable.view.Row(opt);
 
     		this.els.body.append(row.el);
@@ -51,7 +48,6 @@ PrettyTable.view.Table = Backbone.View.extend({
         this.els.body.empty();
     },
     append:function(row) {
-        console.log(row.el)
         this.els.body.append(row.el);
     }
 })

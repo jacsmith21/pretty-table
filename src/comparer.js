@@ -36,6 +36,7 @@ PrettyTable.view.Comparer = Backbone.View.extend({
         this.table1.rows.sort(comparator);
         this.table2.rows.sort(comparator);
 
+
         this.table1.clear();
         this.table2.clear();
 
@@ -46,29 +47,24 @@ PrettyTable.view.Comparer = Backbone.View.extend({
         var j = 0;
         while(i < table1Length && j < table2Length) {
             if(comparator(this.table1.rows[i], this.table2.rows[j]) === 0) {
-                console.log("showing both rows")
                 this.table1.append(this.table1.rows[i])
                 this.table2.append(this.table2.rows[j])
                 i++;
                 j++;
             } else if(comparator(this.table1.rows[i], this.table2.rows[j]) < 0) {
-                console.log("showing only table 1 row")
                 this.copyAndAppend(this.table1.rows[i], this.table1, this.table2);
                 i++;
             } else {
-                console.log("showing only table 2 row")
                 var copy = $.extend(true, {}, this.table2.rows[j]);
                 this.copyAndAppend(this.table2.rows[j], this.table2, this.table1);
                 j++;
             }
         }
         while(i < table1Length) {
-            console.log("showing only table 1 row")
             this.copyAndAppend(this.table1.rows[i], this.table1, this.table2);
             i++;
         }
         while(j < table2Length) {
-            console.log("showing only table 2 row")
             this.copyAndAppend(this.table2.rows[j], this.table2, this.table1);
             j++;
         }
@@ -83,9 +79,6 @@ PrettyTable.view.Comparer = Backbone.View.extend({
         return function(row1, row2) {
             for(var i in keys){
                 var key = keys[i];
-                if(row1.model[key] === undefined || row2.model[key] === undefined) {
-                    throw key + ' doesnt exsit in one of the models'
-                }
                 if(row1.model[key] < row2.model[key]) return -1;
                 if(row1.model[key] > row2.model[key]) return 1;
             }

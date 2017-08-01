@@ -2,13 +2,16 @@
 <head>
     <title>sample</title>
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Quicksand" />
-    <link rel="stylesheet" type="text/css" href="css/pretty-table.css" />
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="css/pretty-table.css" />
+    <link rel="stylesheet" type="text/css" href="css/pretty-json.css" />
+
 
     <!-- lib -->
     <script type="text/javascript" src="libs/jquery-1.11.1.min.js" ></script>
     <script type="text/javascript" src="libs/underscore-min.js" ></script>
     <script type="text/javascript" src="libs/backbone-min.js" ></script>
+    <script type="text/javascript" src="libs/pretty-json-min.js" ></script>
 
     <!-- src dev
     <script type="text/javascript" src="/pretty-json-debug.js" ></script>
@@ -44,16 +47,25 @@
     $(document).ready(function() {
 
         var el = {
-            btnAction: $('#action'),
-            btnClear: $('#clear'),
+            btnAction1: $('#action1'),
+            btnClear1: $('#clear1'),
+            btnAction2: $('#action2'),
+            btnClear2: $('#clear2'),
             input1: $('#input1'),
             input2: $('#input2'),
-            result: $('#result')
+            input3: $('#input3'),
+            input4: $('#input4'),
+            result1: $('#result1'),
+            result2: $('#result2')
         };
 
         var demo1 = {
             headers:["ApplicationName", "ApplicationVersion"],
             models:[
+                {
+                    "ApplicationName": "zee App Name",
+                    "ApplicationVersion": "5"
+                },
                 {
                     "ApplicationName": "ppA Name",
                     "ApplicationVersion": "4"
@@ -79,10 +91,38 @@
             ]
         };
 
+        var demo3 = {
+            models:[
+                {
+                    "ApplicationName": "ppA Name",
+                    "ApplicationVersion": "4"
+                },
+                {
+                    "ApplicationName": "App Name",
+                    "ApplicationVersion": "5"
+                }
+            ]
+        };
+
+        var demo4 = {
+            models:[
+                {
+                    "ApplicationName": "App Name",
+                    "ApplicationVersion": "5"
+                },
+                {
+                    "ApplicationName": "ppA Name",
+                    "ApplicationVersion": "5"
+                }
+            ]
+        };
+
         el.input1.val(JSON.stringify(demo1,null,4));
         el.input2.val(JSON.stringify(demo2,null,4));
+        el.input3.val(JSON.stringify(demo3,null,4));
+        el.input4.val(JSON.stringify(demo4,null,4));
 
-        el.btnAction.on('click', function(){
+        el.btnAction1.on('click', function(){
             var json1 = el.input1.val();
             var json2 = el.input2.val();
 
@@ -107,16 +147,60 @@
             });
 
             var comparer = new PrettyTable.view.Comparer({
-                el:el.result,
+                el:el.result1,
                 table1: table1,
                 table2: table2,
                 keys: ["ApplicationName", "ApplicationVersion"]
             });
         });
 
-        el.btnClear.on('click', function(){
-            el.input.val('');
-            el.result.html('');
+        el.btnClear1.on('click', function(){
+            el.input1.val('');
+            el.result1.html('');
+        });
+
+        el.btnAction2.on('click', function(){
+            var json1 = el.input3.val();
+            var json2 = el.input4.val();
+
+            var data1;
+            var data2;
+            try{
+                data1 = JSON.parse(json1);
+                data2 = JSON.parse(json2);
+            } catch(e) {
+                alert('not valid JSON');
+                return;
+            }
+
+            var renderer = function(data, parent) {
+                var node1 = new PrettyJSON.view.Node({
+                    el: parent.el,
+                    data: data
+                });
+            }
+
+            var table1 = new PrettyTable.view.Table({
+                models: data1.models,
+                renderer: renderer
+            });
+
+            var table2 = new PrettyTable.view.Table({
+                models: data2.models,
+                renderer: renderer
+            });
+
+            var comparer = new PrettyTable.view.Comparer({
+                el:el.result2,
+                table1: table1,
+                table2: table2,
+                keys: ["ApplicationName", "ApplicationVersion"]
+            });
+        });
+
+        el.btnClear2.on('click', function(){
+            el.input2.val('');
+            el.result2.html('');
         });
     });
 </script>
@@ -126,7 +210,7 @@
 
     <div class="row">
         <div class="col text-center">
-            <h1>Demo</h1>
+            <h1>Demo 1</h1>
         </div>
     </div>
 
@@ -143,8 +227,8 @@
 
     <div class="row">
         <div class="col">
-            <button id="action">go</button>
-            <button id="clear">clear</button>
+            <button id="action1">go</button>
+            <button id="clear1">clear</button>
         </div>
     </div>
 
@@ -152,7 +236,41 @@
 
     <div class="row">
         <div class="col">
-            <span id="result"></span>
+            <span id="result1"></span>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="row">
+        <div class="col text-center">
+            <h1>Demo 2</h1>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="row">
+        <div class="col">
+            <textarea id="input3" rows="12"></textarea>
+        </div>
+        <div class="col">
+            <textarea id="input4" rows="12"></textarea>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <button id="action2">go</button>
+            <button id="clear2">clear</button>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="row">
+        <div class="col">
+            <span id="result2"></span>
         </div>
     </div>
 
