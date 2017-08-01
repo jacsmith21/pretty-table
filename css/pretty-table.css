@@ -1,3 +1,11 @@
-tr:hover {
+.table-hover tr:hover {
     background-color: rgba(25, 25, 25, .2);
+}
+
+td.table1 {
+    width: 50%;
+}
+
+td.table2 {
+    width: 50%;
 }

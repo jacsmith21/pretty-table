@@ -1,5 +1,5 @@
 /**
-* @class PrettyJSON.view.Node
+* @class PrettyJSON.view.Row
 * @extends Backbone.View
 * 
 * @author #rbarriga
@@ -8,7 +8,8 @@
 */
 PrettyTable.view.Row = Backbone.View.extend({
     initialize:function(opt) {
-        this.data = opt.data;
+        this.model = opt.model;
+        this.headers = opt.headers;
         this.el = $('<tr />');
 
         this.cells = [];
@@ -16,13 +17,19 @@ PrettyTable.view.Row = Backbone.View.extend({
         this.renderCells();
     },
     renderCells:function() {
-        _.each(this.data, function(cellData) {
-            var opt = {data: cellData, parent: this};
+        if(this.headers !== undefined) {
+            _.each(this.headers, function(header) {
+                var opt = {data: this.model[header.value], parent: this};
+                var cell = new PrettyTable.view.Cell(opt);
+                this.el.append(cell.el);
+                this.cells.push(cell);
+            }, this)
+        } else {
+            var opt = {data: modal, parent: this}
             var cell = new PrettyTable.view.Cell(opt);
-
             this.el.append(cell.el);
-
             this.cells.push(cell);
-        }, this)
+        }
+
     }
 });

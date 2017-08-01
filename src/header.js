@@ -8,12 +8,12 @@
 */
 PrettyTable.view.Header = Backbone.View.extend({
     initialize:function(opt) {
-        this.data = opt.data;
+        this.value = opt.value;
         this.el = $('<th />');
         this.render();
     },
     render:function() {
-        this.el.html(this.data);
+        this.el.html(this.value);
         return this;
     }
 });

@@ -9,7 +9,7 @@
 PrettyTable.view.Table = Backbone.View.extend({
 	initialize:function(opt) {
         this.headerData = opt.headers;
-        this.rowData = opt.data;
+        this.models = opt.models;
 
         this.headers = [];
         this.rows = [];
@@ -27,9 +27,8 @@ PrettyTable.view.Table = Backbone.View.extend({
     	this.tpl = _.template(PrettyTable.tpl.Table);
         $(this.el).html(this.tpl);
         this.elements();
-        _.each(this.headerData, function(headerData) {
-            console.log(headerData)
-            var opt = {data: headerData, parent: this};
+        _.each(this.headerData, function(headerValue) {
+            var opt = {value: headerValue, parent: this};
             var header = new PrettyTable.view.Header(opt);
 
             this.els.head.append(header.el);
@@ -39,13 +38,23 @@ PrettyTable.view.Table = Backbone.View.extend({
         return this;
     },
     renderRows:function() {
-    	_.each(this.rowData, function(rowData) {
-    		var opt = {data: rowData, parent: this};
+    	_.each(this.models, function(model) {
+    		var opt = {model: model, keys: this.keys, headers: this.headers, parent: this};
     		var row = new PrettyTable.view.Row(opt);
 
     		this.els.body.append(row.el);
 
     		this.rows.push(row)
     	}, this);
+    },
+    sortRows:function(keys) {
+        var comparator = function(obj1, obj2) {
+            _.each(keys, function(key) {
+                if(obj1.el[key] < obj2.el[key]) return -1;
+                if(obj1.el[key] > obj2.el[key]) return 1;
+            }, this);
+            return 0;
+        }
+        this.rows.sort(comparator);
     }
 })

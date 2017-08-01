@@ -8,7 +8,19 @@
 **/
 
 PrettyTable.tpl.Table = '' +
-'<table class="table">' +
-	'<thead></thead>' +
-	'<tbody></tbody>' +
-'</table>'
+	'<table class="table table-hover">' +
+		'<thead></thead>' +
+		'<tbody></tbody>' +
+	'</table>'
+
+PrettyTable.tpl.Comparer = '' +
+	'<table class="table comparer">' +
+		'<thead></thead>' +
+		'<tr>' +
+			'<td class="table1">' +
+			'</td>' +
+			'<td class="table2">' +
+			'</td>' +
+		'</tr>' +
+		'<tbody></tbody>' +
+	'</table>'
