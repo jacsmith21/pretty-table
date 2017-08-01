@@ -8,12 +8,11 @@
 */
 PrettyTable.view.Row = Backbone.View.extend({
     initialize:function(opt) {
-        this.model = opt.model;
-        this.compareTo = opt.compareTo;
-        this.counterpart = opt.counterpart;
-        this.renderer = opt.renderer;
-        this.headers = opt.headers;
         this.el = $('<tr />');
+        this.counterpart = opt.counterpart; //used by comparer
+        this.model = opt.model;
+        this.modelCounterpart = opt.modelCounterpart; //used by comparer
+        this.headers = opt.headers;
 
         this.cells = [];
 
@@ -33,22 +32,17 @@ PrettyTable.view.Row = Backbone.View.extend({
             } else {
                 var cellCounterpart = this.counterpart.cells[0];
             }
-            var opt = {data: this.model, compareTo: this.compareTo, counterpart: cellCounterpart, parent: this};
+            var opt = {counterpart: cellCounterpart, data: this.model, dataCouterpart: this.modelCounterpart};
             var cell = new PrettyTable.view.Cell(opt);
             this.el.append(cell.el);
             this.cells.push(cell);
         }
     },
-    setVisible:function(yes) {
+    setVisible:function(yes) { //used by comparer
         if(yes) {
             this.el.css('visibility', 'visible');
         } else {
             this.el.css('visibility', 'hidden');
         }
-    },
-    clone:function() {
-        var opt = {model: this.model, renderer: this.renderer, headers: this.headers};
-        var clone = new PrettyTable.view.Row(opt);
-        return clone;
     }
 });

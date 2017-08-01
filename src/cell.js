@@ -8,26 +8,26 @@
 */
 PrettyTable.view.Cell = Backbone.View.extend({
     initialize:function(opt) {
-        this.data = opt.data;
-        this.compareTo = opt.compareTo;
-        this.counterpart = opt.counterpart;
         this.el = $('<td />');
+        this.counterpart = opt.counterpart;
+        this.data = opt.data;
+        this.dataCouterpart = opt.dataCouterpart;
+
         this.render();
     },
     render:function() {
         if(this.counterpart === undefined) {
-            var counterpart = undefined;
+            var nodeCounterpart = this.counterpart === undefined ? undefined : this.counterpart.node;
         } else {
-            var counterpart = this.counterpart.tree;
+            var nodeCounterpart = this.counterpart.node;
         }
-        console.log(this.compareTo)
         if(_.isObject(this.data)) {
-            this.tree = new PrettyJSON.view.Node({
+            this.node = new PrettyJSON.view.Node({
                 el: this.el,
                 data: this.data,
-                compareTo: this.compareTo,
+                compareTo: this.dataCouterpart,
                 compare: true,
-                counterpart: counterpart
+                counterpart: nodeCounterpart
             });
         } else {
             this.el.html(this.data.toString())

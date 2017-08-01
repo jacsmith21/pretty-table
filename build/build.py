@@ -18,7 +18,7 @@ except ImportError:
 
 sourceDirectory = "../src"
 configFilename = "library.cfg"
-outputFilename = "pretty-json-min.js"
+outputFilename = "pretty-table.min.js"
 
 if len(sys.argv) > 1:
     configFilename = sys.argv[1]

@@ -27,20 +27,18 @@ PrettyTable.view.Comparer = Backbone.View.extend({
         $(this.el).html(this.tpl);
         this.elements();
     },
-    renderTables:function(opt) {
-        var models1 = this.models1;
+    renderTables:function() {
+        var models1 = this.models1; //so I don't have to type out "this" everytime
         var models2 = this.models2;
 
-        var table1 = new PrettyTable.view.Table({});
-        var table2 = new PrettyTable.view.Table({});
-        this.els.cell1.html(table1.el);
-        this.els.cell2.html(table2.el);
+        var table1 = new PrettyTable.view.Table({el: this.els.cell1}); //Creating empty tables
+        var table2 = new PrettyTable.view.Table({el: this.els.cell2});
 
-        var comparator = this.createComparator(this.keys);
+        var comparator = this.createComparator(this.keys); //sorting models
         models1.sort(comparator);
         models2.sort(comparator);
 
-        var models1Length = models1.length;
+        var models1Length = models1.length; //adding models in the right order and creating blank row if needed
         var models2Length = models2.length;
         var i = 0;
         var j = 0;
@@ -71,9 +69,9 @@ PrettyTable.view.Comparer = Backbone.View.extend({
         }
     },
     createAndAppend:function(model1, model2, table1, table2) {
-        var row1 = new PrettyTable.view.Row({model: model1, compareTo: model2, headers: this.headers, parent: this});
+        var row1 = new PrettyTable.view.Row({model: model1, modelCounterpart: model2, headers: this.headers});
         table1.append(row1);
-        var row2 = new PrettyTable.view.Row({model: model2, compareTo: model1, counterpart: row1, headers: this.headers, parent: this});
+        var row2 = new PrettyTable.view.Row({counterpart: row1, model: model2, modelCounterpart: model1, headers: this.headers});
         table2.append(row2);
     },
     createComparator:function(keys) {
