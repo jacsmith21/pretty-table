@@ -31,36 +31,65 @@ PrettyTable.view.Comparer = Backbone.View.extend({
         this.els.cell1.html(this.table1.el);
         this.els.cell2.html(this.table2.el);
 
-        this.table1.sortRows(this.toCompareFields);
-        this.table2.sortRows(this.toCompareFields);
+        var comparator = this.createComparator(this.keys);
+
+        this.table1.rows.sort(comparator);
+        this.table2.rows.sort(comparator);
+
+        this.table1.clear();
+        this.table2.clear();
+
 
         var table1Length = this.table1.rows.length;
         var table2Length = this.table2.rows.length;
-
-        /*
         var i = 0;
         var j = 0;
         while(i < table1Length && j < table2Length) {
-            if(comparator(table1.rows[i], table2[j]) === 0) {
-                appender(tableId, list1[i], list2[j]);
+            if(comparator(this.table1.rows[i], this.table2.rows[j]) === 0) {
+                console.log("showing both rows")
+                this.table1.append(this.table1.rows[i])
+                this.table2.append(this.table2.rows[j])
                 i++;
                 j++;
-            } else if(comparator(list1[i], list2[j]) < 0) {
-                appender(tableId, list1[i], null);
+            } else if(comparator(this.table1.rows[i], this.table2.rows[j]) < 0) {
+                console.log("showing only table 1 row")
+                this.copyAndAppend(this.table1.rows[i], this.table1, this.table2);
                 i++;
             } else {
-                appender(tableId, null, list2[j]);
+                console.log("showing only table 2 row")
+                var copy = $.extend(true, {}, this.table2.rows[j]);
+                this.copyAndAppend(this.table2.rows[j], this.table2, this.table1);
                 j++;
             }
         }
-        while(i < list1.length) {
-            appender(tableId, list1[i], null);
+        while(i < table1Length) {
+            console.log("showing only table 1 row")
+            this.copyAndAppend(this.table1.rows[i], this.table1, this.table2);
             i++;
         }
-        while(j < list2.length) {
-            appender(tableId, null, list2[j]);
+        while(j < table2Length) {
+            console.log("showing only table 2 row")
+            this.copyAndAppend(this.table2.rows[j], this.table2, this.table1);
             j++;
         }
-        */
+    },
+    copyAndAppend:function(row, table, otherTable) {
+        var copy = row.clone();
+        copy.setVisible(false);
+        table.append(row);
+        otherTable.append(copy);
+    },
+    createComparator:function(keys) {
+        return function(row1, row2) {
+            for(var i in keys){
+                var key = keys[i];
+                if(row1.model[key] === undefined || row2.model[key] === undefined) {
+                    throw key + ' doesnt exsit in one of the models'
+                }
+                if(row1.model[key] < row2.model[key]) return -1;
+                if(row1.model[key] > row2.model[key]) return 1;
+            }
+            return 0;
+        }
     }
 })

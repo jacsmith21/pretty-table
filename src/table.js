@@ -39,7 +39,7 @@ PrettyTable.view.Table = Backbone.View.extend({
     },
     renderRows:function() {
     	_.each(this.models, function(model) {
-    		var opt = {model: model, keys: this.keys, headers: this.headers, parent: this};
+    		var opt = {model: model, headers: this.headers, parent: this};
     		var row = new PrettyTable.view.Row(opt);
 
     		this.els.body.append(row.el);
@@ -47,14 +47,11 @@ PrettyTable.view.Table = Backbone.View.extend({
     		this.rows.push(row)
     	}, this);
     },
-    sortRows:function(keys) {
-        var comparator = function(obj1, obj2) {
-            _.each(keys, function(key) {
-                if(obj1.el[key] < obj2.el[key]) return -1;
-                if(obj1.el[key] > obj2.el[key]) return 1;
-            }, this);
-            return 0;
-        }
-        this.rows.sort(comparator);
+    clear:function() {
+        this.els.body.empty();
+    },
+    append:function(row) {
+        console.log(row.el)
+        this.els.body.append(row.el);
     }
 })

@@ -55,11 +55,11 @@
             headers:["ApplicationName", "ApplicationVersion"],
             models:[
                 {
-                    "ApplicationName": "App Name",
-                    "ApplicationVersion": "5"
+                    "ApplicationName": "ppA Name",
+                    "ApplicationVersion": "4"
                 },
                 {
-                    "ApplicationName": "ppA Name",
+                    "ApplicationName": "App Name",
                     "ApplicationVersion": "5"
                 }
             ]
@@ -75,10 +75,6 @@
                 {
                     "ApplicationName": "ppA Name",
                     "ApplicationVersion": "5"
-                },
-                {
-                    "ApplicationName": "pAp Name",
-                    "ApplicationVersion": "5"
                 }
             ]
         };
@@ -88,9 +84,10 @@
 
         el.btnAction.on('click', function(){
             var json1 = el.input1.val();
-            var json2 = el.input1.val();
+            var json2 = el.input2.val();
 
-            var data;
+            var data1;
+            var data2;
             try{ 
                 data1 = JSON.parse(json1);
                 data2 = JSON.parse(json2);
@@ -100,7 +97,7 @@
             }
             
             var table1 = new PrettyTable.view.Table({
-                headers: data1["headers"],
+                headers: data1.headers,
              	models: data1.models
             });
 
@@ -113,7 +110,7 @@
                 el:el.result,
                 table1: table1,
                 table2: table2,
-                keys: ["applicationName", "applicationVersion"]
+                keys: ["ApplicationName", "ApplicationVersion"]
             });
         });
 

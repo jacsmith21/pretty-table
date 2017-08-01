@@ -23,13 +23,24 @@ PrettyTable.view.Row = Backbone.View.extend({
                 var cell = new PrettyTable.view.Cell(opt);
                 this.el.append(cell.el);
                 this.cells.push(cell);
-            }, this)
+            }, this);
         } else {
-            var opt = {data: modal, parent: this}
+            var opt = {data: modal, parent: this};
             var cell = new PrettyTable.view.Cell(opt);
             this.el.append(cell.el);
             this.cells.push(cell);
         }
-
+    },
+    setVisible:function(yes) {
+        if(yes) {
+            this.el.css('visibility', 'visible');
+        } else {
+            this.el.css('visibility', 'hidden');
+        }
+    },
+    clone:function() {
+        var opt = {model: this.model, headers: this.headers};
+        var clone = new PrettyTable.view.Row(opt);
+        return clone;
     }
 });

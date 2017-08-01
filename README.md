@@ -1,5 +1,5 @@
 # pretty-table
-A simple libary to render tables
+A simple libary to render tables from models and comparing two tables
 
 ## Demo
 
