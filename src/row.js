@@ -19,19 +19,19 @@ PrettyTable.view.Row = Backbone.View.extend({
         this.renderCells();
     },
     renderCells:function() {
+        if(this.counterpart === undefined) {
+            var cellCounterpart = undefined;
+        } else {
+            var cellCounterpart = this.counterpart.cells[0];
+        }
         if(this.headers !== undefined && this.headers.length !== 0) {
             _.each(this.headers, function(header) {
-                var opt = {data: this.model[header.value], parent: this};
+                var opt = {counterpart: cellCounterpart, data: this.model[header.value], parent: this};
                 var cell = new PrettyTable.view.Cell(opt);
                 this.el.append(cell.el);
                 this.cells.push(cell);
             }, this);
         } else {
-            if(this.counterpart === undefined) {
-                var cellCounterpart = undefined;
-            } else {
-                var cellCounterpart = this.counterpart.cells[0];
-            }
             var opt = {counterpart: cellCounterpart, data: this.model, dataCouterpart: this.modelCounterpart};
             var cell = new PrettyTable.view.Cell(opt);
             this.el.append(cell.el);

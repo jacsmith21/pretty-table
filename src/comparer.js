@@ -31,8 +31,8 @@ PrettyTable.view.Comparer = Backbone.View.extend({
         var models1 = this.models1; //so I don't have to type out "this" everytime
         var models2 = this.models2;
 
-        var table1 = new PrettyTable.view.Table({el: this.els.cell1}); //Creating empty tables
-        var table2 = new PrettyTable.view.Table({el: this.els.cell2});
+        var table1 = new PrettyTable.view.Table({el: this.els.cell1, headers: this.headers}); //Creating empty tables
+        var table2 = new PrettyTable.view.Table({el: this.els.cell2, headers: this.headers});
 
         var comparator = this.createComparator(this.keys); //sorting models
         models1.sort(comparator);
@@ -69,9 +69,9 @@ PrettyTable.view.Comparer = Backbone.View.extend({
         }
     },
     createAndAppend:function(model1, model2, table1, table2) {
-        var row1 = new PrettyTable.view.Row({model: model1, modelCounterpart: model2, headers: this.headers});
+        var row1 = new PrettyTable.view.Row({model: model1, modelCounterpart: model2, headers: table1.headers});
         table1.append(row1);
-        var row2 = new PrettyTable.view.Row({counterpart: row1, model: model2, modelCounterpart: model1, headers: this.headers});
+        var row2 = new PrettyTable.view.Row({counterpart: row1, model: model2, modelCounterpart: model1, headers: table2.headers});
         table2.append(row2);
     },
     createComparator:function(keys) {
