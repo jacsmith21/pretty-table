@@ -12,7 +12,7 @@ Here is a [demo](https://jacsmith21.github.io/pretty-table/)!
 
 ## Usage
 
-```
+```javascript
 var data1 = {
     headers:["ApplicationName", "ApplicationVersion"],
     models:[
