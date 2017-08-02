@@ -1,16 +1,14 @@
 # Pretty Table
-A simple library to render tables from models and to compare tables. Modeled from [warfares/pretty-json](https://github.com/warfares/pretty-json)
-
-## Demo
-
-[here] (https://jacsmith21.github.io/pretty-table/)
+A simple library to render tables from models and to compare tables. Modeled from [warfares/pretty-json](https://github.com/warfares/pretty-json)  
+  
+Here is a [demo](https://jacsmith21.github.io/pretty-table/)!
 
 ## Dependencies
 
 * Backbone 1.1.2 (code structure) 
 * Underscore 1.7.0 (utils)
 * JQuery 1.11.1 (DOM manipulation)
-* [pretty-json](https://github.com/jacsmith21/pretty-json) (DOM manipulation)
+* [pretty-json](https://github.com/jacsmith21/pretty-json) (Rendering JSON objects)
 
 ## Usage
 
@@ -61,7 +59,7 @@ var table1 = new PrettyTable.view.Table({
 });
 
 //to render a table without headers
-//if headers aren't defined each row renders the complete model using (pretty-json)[https://github.com/jacsmith21/pretty-json]
+//if headers aren't defined each row renders the complete model using pretty-json
 var table2 = new PrettyTable.view.Table({
     el: $('#elem2'),
     models: data.models 
@@ -86,6 +84,7 @@ PrettyTable.view.Comparer
 * models2: The models to display on the right hand side
 * headers: The headers for each table [optional]
 * keys: The unique identifiers of the models used to match the rows
+* importantInfo: Important information for rendering JSON objects (see [pretty-json](https://github.com/jacsmith21/pretty-json)) [optional]
 
 PrettyTable.view.Table
 * el: DOM elem to append the Table
