@@ -30,7 +30,6 @@ PrettyTable.view.Cell = Backbone.View.extend({
                 counterpart: nodeCounterpart
             });
         } else {
-            console.log(this.data)
             this.el.html(this.data.toString())
         }
     }

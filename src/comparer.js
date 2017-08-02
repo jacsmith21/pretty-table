@@ -63,7 +63,7 @@ PrettyTable.view.Comparer = Backbone.View.extend({
             i++;
         }
         while(j < models2Length) {
-            this.createAndAppend(models1[j], models2[j], table1, table2);
+            this.createAndAppend(models2[j], models2[j], table1, table2);
             table1.rows[table1.rows.length-1].setVisible(false);
             j++;
         }
