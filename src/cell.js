@@ -12,6 +12,7 @@ PrettyTable.view.Cell = Backbone.View.extend({
         this.counterpart = opt.counterpart;
         this.data = opt.data;
         this.dataCouterpart = opt.dataCouterpart;
+        this.importantInfo = opt.importantInfo;
 
         this.render();
     },
@@ -27,7 +28,8 @@ PrettyTable.view.Cell = Backbone.View.extend({
                 data: this.data,
                 compareTo: this.dataCouterpart,
                 compare: true,
-                counterpart: nodeCounterpart
+                counterpart: nodeCounterpart,
+                importantInfo: this.importantInfo
             });
         } else {
             this.el.html(this.data.toString())

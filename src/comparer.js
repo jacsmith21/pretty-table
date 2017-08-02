@@ -12,6 +12,7 @@ PrettyTable.view.Comparer = Backbone.View.extend({
         this.headers = opt.headers;
         this.models1 = opt.models1;
         this.models2 = opt.models2;
+        this.importantInfo = opt.importantInfo;
 
         this.render();
         this.renderTables();
@@ -69,9 +70,9 @@ PrettyTable.view.Comparer = Backbone.View.extend({
         }
     },
     createAndAppend:function(model1, model2, table1, table2) {
-        var row1 = new PrettyTable.view.Row({model: model1, modelCounterpart: model2, headers: table1.headers});
+        var row1 = new PrettyTable.view.Row({model: model1, modelCounterpart: model2, headers: table1.headers, importantInfo: this.importantInfo});
         table1.append(row1);
-        var row2 = new PrettyTable.view.Row({counterpart: row1, model: model2, modelCounterpart: model1, headers: table2.headers});
+        var row2 = new PrettyTable.view.Row({counterpart: row1, model: model2, modelCounterpart: model1, headers: table2.headers, importantInfo: this.importantInfo});
         table2.append(row2);
     },
     createComparator:function(keys) {

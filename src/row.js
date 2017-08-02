@@ -13,6 +13,7 @@ PrettyTable.view.Row = Backbone.View.extend({
         this.model = opt.model;
         this.modelCounterpart = opt.modelCounterpart; //used by comparer
         this.headers = opt.headers;
+        this.importantInfo = opt.importantInfo;
 
         this.cells = [];
 
@@ -32,7 +33,7 @@ PrettyTable.view.Row = Backbone.View.extend({
                 this.cells.push(cell);
             }, this);
         } else {
-            var opt = {counterpart: cellCounterpart, data: this.model, dataCouterpart: this.modelCounterpart};
+            var opt = {counterpart: cellCounterpart, data: this.model, dataCouterpart: this.modelCounterpart, importantInfo: this.importantInfo};
             var cell = new PrettyTable.view.Cell(opt);
             this.el.append(cell.el);
             this.cells.push(cell);
