@@ -90,6 +90,8 @@ PrettyTable.view.Table
 * el: DOM elem to append the Table
 * models: The models for the rows
 * headers: The headers for each table [optional]
+* next: The function to call when the user clicks on the next button. The function is given (row, model) and expexts you to call row.update(newModel) with a new model [optional]
+* previous: The function to call when the user clicks on the previous button. The function is given (row, model) and expexts you to call row.update(newModel) with a new model [optional]
 
 ## Other
 
