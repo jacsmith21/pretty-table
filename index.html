@@ -2,6 +2,7 @@
 <head>
     <title>sample</title>
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Quicksand" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="css/pretty-table.css" />
     <link rel="stylesheet" type="text/css" href="css/pretty-json.css" />
@@ -42,6 +43,23 @@
 
 <body>
 <script>
+    //for testing
+    var next = {
+        "ApplicationName": "next",
+        "ApplicationVersion": "5000"
+    }
+
+    var previous = {
+        "ApplicationName": "previous",
+        "ApplicationVersion": "5000"
+    }
+    function getNext() {
+        return next;
+    }
+    function getPrevious() {
+        return previous;
+    }
+
     $(document).ready(function() {
 
         var el = {
@@ -124,7 +142,21 @@
             var table1 = new PrettyTable.view.Table({
                 el: el.result1,
                 headers: data1.headers,
-             	models: data1.models
+             	models: data1.models,
+                next: function(row, model) {
+                    row.update(getNext());
+                    //var id = this.model.id
+                    /*$.when(ajaxJsonGet(nextApplicationUrl).done(function(data) {
+                        callback(data)
+                    }));*/
+                },
+                previous: function(row, model) {
+                    row.update(getPrevious());
+                    //var id = this.model.id
+                    /*$.when(ajaxJsonGet(previousApplicationUrl).done(function(data) {
+                        callback(data)
+                    }));*/
+                }
             });
         });
 
@@ -166,6 +198,7 @@
         el.btnClear2.on('click', function(){
             el.result2.html('');
         });
+
     });
 </script>
 <div class="container">
@@ -243,4 +276,11 @@
 
 </div>
 </body>
+<script>
+    window.onload = function() {
+        window.addEventListener("next", function() {
+            console.log("hey")
+        }, false)
+    }
+</script>
 </html>

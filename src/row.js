@@ -14,6 +14,8 @@ PrettyTable.view.Row = Backbone.View.extend({
         this.modelCounterpart = opt.modelCounterpart; //used by comparer
         this.headers = opt.headers;
         this.importantInfo = opt.importantInfo;
+        this.next = opt.next;
+        this.previous = opt.previous;
 
         this.cells = [];
 
@@ -27,7 +29,7 @@ PrettyTable.view.Row = Backbone.View.extend({
         }
         if(this.headers !== undefined && this.headers.length !== 0) {
             _.each(this.headers, function(header) {
-                var opt = {counterpart: cellCounterpart, data: this.model[header.value], parent: this};
+                var opt = {data: this.model[header.value]};
                 var cell = new PrettyTable.view.Cell(opt);
                 this.el.append(cell.el);
                 this.cells.push(cell);
@@ -38,6 +40,22 @@ PrettyTable.view.Row = Backbone.View.extend({
             this.el.append(cell.el);
             this.cells.push(cell);
         }
+
+        //Craeting actions icons and binding to the passed in functions
+        if(this.next || this.previous) {
+            var actions = '';
+            if(this.previous) actions += '<a href="#" class="previous"><i class="fa fa-lg fa-chevron-left"></i>' //creating html
+            if(this.next) actions += '<a href="#" class="next"><i class="fa fa-lg fa-chevron-right"></i></a>';
+            var opt = {data: actions}
+            var cell = new PrettyTable.view.Cell(opt);
+            this.el.append(cell.el);
+            if(this.next) cell.el.find("a.next").on("click", {next: this.next, row: this, model: this.model}, function(e){
+                e.data.next(e.data.row, e.data.model)
+            })
+            if(this.previous) cell.el.find("a.previous").on("click", {previous: this.previous, row: this, model: this.model}, function(e){
+                e.data.previous(e.data.row, e.data.model)
+            })
+        }
     },
     setVisible:function(yes) { //used by comparer
         if(yes) {
@@ -45,5 +63,11 @@ PrettyTable.view.Row = Backbone.View.extend({
         } else {
             this.el.css('visibility', 'hidden');
         }
+    },
+    update:function(newModel) {
+        this.model = newModel
+        this.el.empty()
+        this.cells = []
+        this.renderCells()
     }
 });

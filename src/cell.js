@@ -32,7 +32,7 @@ PrettyTable.view.Cell = Backbone.View.extend({
                 importantInfo: this.importantInfo
             });
         } else {
-            this.el.html(this.data.toString())
+            this.el.html(this.data)
         }
     }
 });
