@@ -29,6 +29,27 @@ PrettyTable.view.Comparer = Backbone.View.extend({
         this.elements();
     },
     renderTables:function() {
+    	if(!this.keys) {
+    		throw("please supply keys to sort the rows!");
+    	} else {
+    		_.each(this.keys, function(key) {
+    			_.each(this.models1, function(model) {
+    				if(!model[key]) throw("the keys must exist in the first layer of each models");
+    			}, this);
+    			_.each(this.models2, function(model) {
+    				if(!model[key]) throw("the keys must exist in the first layer of each models");
+    			}, this);
+    		}, this);
+    	}
+    	
+    	if(!this.models1 && !this.models2) {
+    		return;
+    	}
+    	
+    	if(this.models1 === undefined || this.models2 === undefined) {
+    		throw("please supply both sets of models!");
+    	}
+    	
         var models1 = this.models1; //so I don't have to type out "this" everytime
         var models2 = this.models2;
 
@@ -68,11 +89,13 @@ PrettyTable.view.Comparer = Backbone.View.extend({
             table1.rows[table1.rows.length-1].setVisible(false);
             j++;
         }
+        this.table1 = table1;
+        this.table2 = table2;
     },
     createAndAppend:function(model1, model2, table1, table2) {
-        var row1 = new PrettyTable.view.Row({model: model1, modelCounterpart: model2, headers: table1.headers, importantInfo: this.importantInfo});
+        var row1 = new PrettyTable.view.Row({model: model1, headers: table1.headers, importantInfo: this.importantInfo});
         table1.append(row1);
-        var row2 = new PrettyTable.view.Row({counterpart: row1, model: model2, modelCounterpart: model1, headers: table2.headers, importantInfo: this.importantInfo});
+        var row2 = new PrettyTable.view.Row({counterpart: row1, model: model2, headers: table2.headers, importantInfo: this.importantInfo});
         table2.append(row2);
     },
     createComparator:function(keys) {

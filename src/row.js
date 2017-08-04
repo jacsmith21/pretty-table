@@ -9,39 +9,43 @@
 PrettyTable.view.Row = Backbone.View.extend({
     initialize:function(opt) {
         this.el = $('<tr />');
+        
         this.counterpart = opt.counterpart; //used by comparer
         this.model = opt.model;
-        this.modelCounterpart = opt.modelCounterpart; //used by comparer
         this.headers = opt.headers;
         this.importantInfo = opt.importantInfo;
         this.next = opt.next;
         this.previous = opt.previous;
+        
+        if(this.counterpart !== undefined) {
+        	this.counterpart.counterpart = this;
+        }
 
         this.cells = [];
 
         this.renderCells();
     },
     renderCells:function() {
-        if(this.counterpart === undefined) {
-            var cellCounterpart = undefined;
-        } else {
-            var cellCounterpart = this.counterpart.cells[0];
-        }
+    	if(this.model === undefined) {
+    		return;
+    	}
+    	
         if(this.headers !== undefined && this.headers.length !== 0) {
             _.each(this.headers, function(header) {
-                var opt = {data: this.model[header.value]};
+                var opt = {data: this.model[header.text]};
                 var cell = new PrettyTable.view.Cell(opt);
                 this.el.append(cell.el);
                 this.cells.push(cell);
             }, this);
         } else {
-            var opt = {counterpart: cellCounterpart, data: this.model, dataCouterpart: this.modelCounterpart, importantInfo: this.importantInfo};
+        	var cellCounterpart = this.counterpart === undefined ? undefined : this.counterpart.cells[0];
+            var opt = {counterpart: cellCounterpart, data: this.model, importantInfo: this.importantInfo};
             var cell = new PrettyTable.view.Cell(opt);
             this.el.append(cell.el);
             this.cells.push(cell);
         }
 
-        //Craeting actions icons and binding to the passed in functions
+        //Creating actions icons and binding to the passed in functions
         if(this.next || this.previous) {
             var actions = '';
             if(this.previous) actions += '<a href="#" class="previous"><i class="fa fa-lg fa-chevron-left"></i>' //creating html
@@ -64,10 +68,10 @@ PrettyTable.view.Row = Backbone.View.extend({
             this.el.css('visibility', 'hidden');
         }
     },
-    update:function(newModel) {
-        this.model = newModel
-        this.el.empty()
-        this.cells = []
-        this.renderCells()
+    update:function(model) {
+        this.model = model;
+        this.el.empty();
+        this.cells = [];
+        this.renderCells();
     }
 });

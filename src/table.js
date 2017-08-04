@@ -8,8 +8,8 @@
 */
 PrettyTable.view.Table = Backbone.View.extend({
 	initialize:function(opt) {
-	    this.headerData = opt.headers;
-	    this.models = opt.models;
+	    this.headerText = opt.headers;
+	    this.models = opt.models || [];
 	    this.next = opt.next;
 	    this.previous = opt.previous;
 
@@ -29,18 +29,20 @@ PrettyTable.view.Table = Backbone.View.extend({
     	this.tpl = _.template(PrettyTable.tpl.Table);
         $(this.el).html(this.tpl);
         this.elements();
-        _.each(this.headerData, function(headerValue) {
-            var opt = {value: headerValue};
+        _.each(this.headerText, function(text) {
+            var opt = {text: text};
             var header = new PrettyTable.view.Header(opt);
 
             this.els.head.append(header.el);
 
             this.headers.push(header);
         }, this);
+        
         if(this.next || this.previous) {
-            var opt = {value: "actions"};
+            var opt = {text: "actions"};
             var header = new PrettyTable.view.Header(opt);
             this.els.head.append(header.el);
+            this.headers.push(header);
         }
     },
     renderRows:function(models, renderer) {
