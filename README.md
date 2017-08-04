@@ -3,6 +3,8 @@ A simple library to render tables from models and to compare tables. Modeled aft
   
 Here is a [demo](https://jacsmith21.github.io/pretty-table/)!
 
+Download it [here](https://raw.githubusercontent.com/jacsmith21/pretty-table/master/build/pretty-table.min.js)!
+
 ## Dependencies
 
 * Backbone 1.1.2 (code structure) 
