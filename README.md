@@ -1,5 +1,5 @@
 # Pretty Table
-A simple library to render tables from models and to compare tables. Modeled from [warfares/pretty-json](https://github.com/warfares/pretty-json)  
+A simple library to render tables from models and to compare tables. Modeled after [warfares/pretty-json](https://github.com/warfares/pretty-json)  
   
 Here is a [demo](https://jacsmith21.github.io/pretty-table/)!
 
@@ -92,6 +92,18 @@ PrettyTable.view.Table
 * headers: The headers for each table [optional]
 * next: The function to call when the user clicks on the next button. The function is given (row, model) and expexts you to call row.update(newModel) with a new model [optional]
 * previous: The function to call when the user clicks on the previous button. The function is given (row, model) and expexts you to call row.update(newModel) with a new model [optional]
+
+## Building
+
+This library is built using mergejs, toposort & mergejs. To build simply run build.py in the build folder.
+
+## Testing
+
+Mocha and Chai are used to test this library. To run the tests:
+
+1. Install the dependencies: `$ npm install jquery jsdom underscore backbone mocha chai sinon sinon-chai testem -g`
+2. Run testem: `$ testem`
+3. Go to the webpage!
 
 ## Other
 
