@@ -96,8 +96,11 @@ PrettyTable.view.Table
 * previous: The function to call when the user clicks on the previous button. The function is given (row, model) and expexts you to call row.update(newModel) with a new model [optional]
 
 ## Building
+The library is built using python with jsmin. To build the comprssed file:
 
-This library is built using mergejs, toposort & mergejs. To build simply run build.py in the build folder.
+1. Go to the build folder
+2. `$ pip install -r requirements.txt`
+3. Run build.py using python 3
 
 ## Testing
 
