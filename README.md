@@ -1,5 +1,5 @@
 # Pretty Table
-A simple library to render tables from models and to compare tables. Modeled after [warfares/pretty-json](https://github.com/warfares/pretty-json)  
+A simple library to render tables from models and to compare tables. 
   
 Here is a [demo](https://jacsmith21.github.io/pretty-table/)!
 
