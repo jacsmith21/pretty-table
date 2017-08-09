@@ -96,20 +96,18 @@ PrettyTable.view.Table
 * previous: The function to call when the user clicks on the previous button. The function is given (row, model) and expexts you to call row.update(newModel) with a new model [optional]
 
 ## Building
-The library is built using python with jsmin. To build the comprssed file:
+The library is built using python with jsmin. To build the compressed file:
 
 1. Go to the build folder
 2. `$ pip install -r requirements.txt`
 3. Run build.py using python 3
 
 ## Testing
-
 Mocha and Chai are used to test this library. To run the tests:
 
 1. Install the dependencies: `$ npm install jquery jsdom underscore backbone mocha chai sinon sinon-chai testem`
 2. Run testem: `$ testem`
 3. Go to the webpage!
 
-## Other
-
-Keys and headers are assumed to be in the first level of the table
+## Important Information
+* Keys and headers are assumed to be in the first level of the models.
